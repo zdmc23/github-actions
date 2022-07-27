@@ -13,7 +13,7 @@ jobs:
       - name: Set Branch Var 
         run: echo "BRANCH=$(echo git branch --contains ${{ github.ref }}" >> $GITHUB_ENV
       - name: Test Branch Var
-        run: echo $BRANCH
+        run: echo "${{ env.BRANCH }}"
       - name: Branch Condition
-        if: $BRANCH == 'refs/heads/main'
+        if: ${{ env.BRANCH }} == 'refs/heads/main'
         run: echo "True!" 
