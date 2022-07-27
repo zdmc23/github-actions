@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Branch Name
+        run: |
+          echo "running on branch ${GITHUB_REF##*/}"
       - name: Set Branch Var 
         run: | 
           echo "BRANCH=$(git branch --contains ${{ github.ref }})" >> $GITHUB_ENV
