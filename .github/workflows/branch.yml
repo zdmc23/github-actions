@@ -10,6 +10,7 @@ jobs:
     name: On Tag with Branch Condition
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Set Branch Var 
         run: | 
           echo "BRANCH=$(git branch --contains ${{ github.ref }})" >> $GITHUB_ENV
