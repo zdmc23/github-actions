@@ -11,9 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set Branch Var 
-        run: echo "BRANCH=$(git branch --contains ${{ github.ref }})" >> $GITHUB_ENV
+        run: | 
+          echo "BRANCH=$(git branch --contains ${{ github.ref }})" >> $GITHUB_ENV
       - name: Test Branch Var
-        run: echo "${{ env.BRANCH }}"
+        run: |
+          echo "${{ env.BRANCH }}"
       - name: Branch Condition
         if: ${{ env.BRANCH }} == 'refs/heads/main'
-        run: echo "True!" 
+        run: |
+          echo "True!" 
