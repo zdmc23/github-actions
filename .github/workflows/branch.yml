@@ -28,10 +28,10 @@ jobs:
         run: |
           echo "${{ steps.check_step.outputs.branch }}"
       - name: Branch Condition IF
-        if: ${{ steps.check_step.outputs.branch }} == 'main'
+        if: steps.check_step.outputs.branch == 'main'
         run: |
           echo "True!"
       - name: Branch Condition ELSE
-        if: ${{ steps.check_step.outputs.branch }} != 'main'
+        if: steps.check_step.outputs.branch != 'main'
         run: |
           echo "False" 
