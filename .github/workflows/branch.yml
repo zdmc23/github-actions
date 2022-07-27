@@ -9,18 +9,29 @@ jobs:
   publish:
     name: On Tag with Branch Condition
     runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.check_step.outputs.branch }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Branch Name
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get current branch
+        id: check_step
         run: |
-          echo "running on branch ${GITHUB_REF##*/}"
-      - name: Set Branch Var 
-        run: | 
-          echo "BRANCH=$(git branch --contains ${{ github.ref }})" >> $GITHUB_ENV
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw##*/}
+          echo "::set-output name=branch::$branch"
+          echo "Branch is $branch."
       - name: Test Branch Var
         run: |
-          echo "${{ env.BRANCH }}"
-      - name: Branch Condition
-        if: ${{ env.BRANCH }} == 'refs/heads/main'
+          echo "${{ steps.check_step.outputs.branch }}"
+      - name: Branch Condition IF
+        if: ${{ steps.check_step.outputs.branch }} == 'main'
         run: |
-          echo "True!" 
+          echo "True!"
+      - name: Branch Condition ELSE
+        if: ${{ steps.check_step.outputs.branch }} != 'main'
+        run: |
+          echo "False" 
